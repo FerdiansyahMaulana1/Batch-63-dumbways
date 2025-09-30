@@ -22,7 +22,7 @@ let image = document.getElementById("image");
 
 let addButton = document.getElementById("add");
 
-// localStorage API
+// localStorage API untuk form
 function setLocalStorage(name, value) {
   localStorage.setItem(name, JSON.stringify(value));
 }
@@ -47,14 +47,14 @@ function countDuration(startDate, endDate) {
   let months = end.getMonth() - start.getMonth();
   let days = end.getDate() - start.getDate();
 
-  // Koreksi jika hari negatif
+  // Koreksi jika harinya negatif
   if (days < 0) {
     months--;
     const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0); // hari terakhir bulan sebelumnya
     days += prevMonth.getDate();
   }
 
-  // Koreksi jika bulan negatif
+  // ini Koreksi jika bulan negatif
   if (months < 0) {
     years--;
     months += 12;
