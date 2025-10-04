@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/asset/css/form.css">
+    <title>Document</title>
+</head>
+
+<body>
+   
+    <div class="container">
+        <form action="/add-project" method="POST" enctype="multipart/form-data">
+            <div class="addProject">
+                <h2>ADD MY PROJECT</h2>
+                <div class="formField">
+                    <label for="name">Project Name</label>
+                    <input type="text" name="name" id="name">
+                </div>
+                <div class="twoColumnField">
+                    <div class="formField" style="width: 195px;">
+                        <label for="startDate">Start Date</label>
+                        <input type="date" name="startDate" id="startDate">
+                    </div>
+                    <div class="formField" style="width: 195px">
+                        <label for="endDate">End Date</label>
+                        <input type="date" name="endDate" id="endDate">
+                    </div>
+                </div>
+                <div class="formField">
+                    <label for="description">Description</label>
+                    <textarea name="description" id="description"></textarea>
+                </div>
+                <div class="formField">
+                    <label for="tech">Technologies</label>
+                    <div class="twoColumnField">
+                        <div>
+                            <div class="rowFormField">
+                                <input type="checkbox" name="technologies" id="technologies" value="NodeJs">
+                                <label style="font-weight: normal; margin-left: .5rem;"  for="technologies">Node JS</label>
+                            </div>
+                            <div class="rowFormField">
+                                <input type="checkbox" name="technologies" id="technologies" value="ReactJs">
+                                <label style="font-weight: normal; margin-left: .5rem;"  for="technologies">React JS</label>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="rowFormField">
+                                <input type="checkbox" name="technologies" id="technologies" value="NextJs">
+                                <label style="font-weight: normal; margin-left: .5rem;"  for="technologies">Next JS</label>
+                            </div>
+                            <div class="rowFormField">
+                                <input type="checkbox" name="technologies" id="technologies" value="TypeScript">
+                                <label style="font-weight: normal; margin-left: .5rem;"  for="technologies">Typescript</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="formField">
+                    <label for="image">Upload Image</label>
+                    <input type="file" name="image" id="image">
+                </div>
+                <div class="formField">
+                    <button id="add">submit</button>
+                </div>
+            </div>
+        </form>
+           <!-- Bagian daftar project -->
+<div class="myProject">
+  <h2>MY PROJECT</h2>
+
+  {{#if projects.length}}
+  <div class="cards">
+    {{#each projects}}
+      <div class="card">
+        {{#if this.image}}
+          <img src="{{this.image}}" alt="Project Image" width="200">
+        {{/if}}
+        <h3>{{this.project_name}}</h3>
+        <p>{{this.description}}</p>
+        <p><strong>Teknologi:</strong> {{this.technologies}}</p>
+      </div>
+    {{/each}}
+  </div>
+  {{else}}
+  <p>Belum ada project ditambahkan.</p>
+  {{/if}}
+</div>
+        <div class="backLayerEdit hide">
+            <div class="formEdit">
+                <div class="closeEdit"></div>
+                <div class="editProject">
+                    <h2>EDIT PROJECT</h2>
+                    <div class="formField">
+                        <label for="nameEdit">Project Name</label>
+                        <input type="text" name="nameEdit" id="nameEdit">
+                    </div>
+                    <div class="twoColumnField">
+                        <div class="formField" style="width: 195px;">
+                            <label for="startDateEdit">Start Date</label>
+                            <input type="date" name="startDateEdit" id="startDateEdit">
+                        </div>
+                        <div class="formField" style="width: 195px">
+                            <label for="endDateEdit">End Date</label>
+                            <input type="date" name="endDateEdit" id="endDateEdit">
+                        </div>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <label for="startDateEdit">Start Date COL</label>
+                                <input type="date" name="startDateEdit" id="startDateEdit">
+                            </div>
+                            <div class="col">
+                                <label for="endDateEdit">End Date COL</label>
+                                <input type="date" name="endDateEdit" id="endDateEdit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="formField">
+                        <label for="descriptionEdit">Description</label>
+                        <textarea name="descriptionEdit" id="descriptionEdit"></textarea>
+                    </div>
+                    <div class="formField">
+                        <label for="tech">Technologies</label>
+                        <div class="twoColumnField">
+                            <div>
+                                <div class="rowFormField">
+                                    <input type="checkbox" name="tech1Edit" id="tech1Edit" value="NodeJs">
+                                    <label style="font-weight: normal; margin-left: .5rem;" for="tech1Edit">Node
+                                        JS</label>
+                                </div>
+                                <div class="rowFormField">
+                                    <input type="checkbox" name="tech2Edit" id="tech2Edit" value="ReactJs">
+                                    <label style="font-weight: normal; margin-left: .5rem;" for="tech2Edit">React
+                                        JS</label>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="rowFormField">
+                                    <input type="checkbox" name="tech3Edit" id="tech3Edit" value="NextJs">
+                                    <label style="font-weight: normal; margin-left: .5rem;" for="tech3Edit">Next
+                                        JS</label>
+                                </div>
+                                <div class="rowFormField">
+                                    <input type="checkbox" name="tech4Edit" id="tech4Edit" value="TypeScript">
+                                    <label style="font-weight: normal; margin-left: .5rem;"
+                                        for="tech4Edit">Typescript</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="formField">
+                        <label for="imageEdit">Upload Image</label>
+                        <input type="file" name="imageEdit" id="imageEdit">
+                    </div>
+                    <div class="formField">
+                        <button id="edit" type="submit">save</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/asset/js/form.js"></script>
+
+</body>
+
+</html>
