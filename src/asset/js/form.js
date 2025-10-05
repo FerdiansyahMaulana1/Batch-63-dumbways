@@ -1,60 +1,48 @@
-// add form
+// ======================
+// form.js — versi bersih server-side
+// ======================
 
-let name = document.getElementById("name");
+// Ambil elemen input
+const name = document.getElementById("name");
+const startDate = document.getElementById("startDate");
+const endDate = document.getElementById("endDate");
+const description = document.getElementById("description");
+const tech1 = document.getElementById("tech1");
+const tech2 = document.getElementById("tech2");
+const tech3 = document.getElementById("tech3");
+const tech4 = document.getElementById("tech4");
+const image = document.getElementById("image");
+const addButton = document.getElementById("add");
 
-let startDate = document.getElementById("startDate");
+// Optional: validasi sebelum submit ke server
+addButton.addEventListener("click", (e) => {
+  if (!name.value.trim()) {
+    e.preventDefault();
+    alert("Nama project harus diisi!");
+  } else if (!startDate.value || !endDate.value) {
+    e.preventDefault();
+    alert("Tanggal mulai dan tanggal akhir harus diisi!");
+  }
+});
 
-let endDate = document.getElementById("endDate");
-
-let description = document.getElementById("description");
-
-// technologies
-
-let tech1 = document.getElementById("tech1");
-
-let tech2 = document.getElementById("tech2");
-
-let tech3 = document.getElementById("tech3");
-
-let tech4 = document.getElementById("tech4");
-
-let image = document.getElementById("image");
-
-let addButton = document.getElementById("add");
-
-// localStorage API untuk form
-function setLocalStorage(name, value) {
-  localStorage.setItem(name, JSON.stringify(value));
-}
-
-function getLocalStorage(name) {
-  return JSON.parse(localStorage.getItem(name));
-}
-
+// Fungsi tambahan (optional) untuk menghitung durasi
 function countDuration(startDate, endDate) {
   const start = new Date(startDate);
   const end = new Date(endDate);
 
-  if (isNaN(start) || isNaN(end)) {
-    return "Tanggal tidak valid";
-  }
-
-  if (end < start) {
-    return "Tanggal akhir harus setelah tanggal mulai";
-  }
+  if (isNaN(start) || isNaN(end)) return "Tanggal tidak valid";
+  if (end < start) return "Tanggal akhir harus setelah tanggal mulai";
 
   let years = end.getFullYear() - start.getFullYear();
   let months = end.getMonth() - start.getMonth();
   let days = end.getDate() - start.getDate();
 
-  // Koreksi jika harinya negatif
   if (days < 0) {
     months--;
-    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0); // hari terakhir bulan sebelumnya
+    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
     days += prevMonth.getDate();
   }
 
-  // ini Koreksi jika bulan negatif
   if (months < 0) {
     years--;
     months += 12;
@@ -64,239 +52,5 @@ function countDuration(startDate, endDate) {
   if (years > 0) parts.push(`${years} tahun`);
   if (months > 0) parts.push(`${months} bulan`);
   if (days > 0) parts.push(`${days} hari`);
-  if (parts.length === 0) return "0 hari"; // jika sama
-
-  return parts.join(" ");
+  return parts.join(" ") || "0 hari";
 }
-
-function objectUrlToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-      resolve(event.target.result); // hasil base64
-    };
-
-    reader.onerror = function (error) {
-      reject(error);
-    };
-
-    reader.readAsDataURL(file); // hasilnya base64 dengan prefix mime-type
-  });
-}
-
-function renderElement() {
-  let card = "";
-
-  myProject.map((e, i) => {
-    card += `<div class="card">
-                     <div class="cardImage">
-                        <img src="${e.image ? e.image : 'default.jpg'}" alt="project image">
-                      </div>
-                      <div class="cardTitle">${e.name}</div>
-                      <p class="cardDuration">Durasi: ${countDuration(
-                        e.startDate,
-                        e.endDate
-                      )}</p>
-                      <p class="cardDesc">${e.description}</p>
-                      <div class="cardIcon">
-                      </div>
-                      <div class="cardButton">
-                          <button class="cardEdit">edit</button>
-                          <button class="cardDelete">delete</button>
-                      </div>
-                  </div>`;
-  });
-
-  cardsElement.innerHTML = card;
-
-  // icons data
-  let icons = [
-    {
-      name: "Node JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=54087&format=png&color=000000",
-    },
-    {
-      name: "React JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=Ax6abTiOhdzW&format=png&color=000000",
-    },
-    {
-      name: "Next JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=MWiBjkuHeMVq&format=png&color=000000",
-    },
-    {
-      name: "Typescript",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=uJM6fQYqDaZK&format=png&color=000000",
-    },
-  ];
-
-  let cardIcon = document.getElementsByClassName("cardIcon");
-
-  myProject.map((x, i) => {
-    let icon = "";
-
-    icons.map((y, j) => {
-      if (x.tech1 === true && j === 0) {
-        icon += `<img src="${icons[0].imageUrl}" alt="icon ${icons[0].name}" class="icon">`;
-      }
-
-      if (x.tech2 === true && j === 1) {
-        icon += `<img src="${icons[1].imageUrl}" alt="icon ${icons[1].name}" class="icon">`;
-      }
-
-      if (x.tech3 === true && j === 2) {
-        icon += `<img src="${icons[2].imageUrl}" alt="icon ${icons[2].name}" class="icon">`;
-      }
-
-      if (x.tech4 === true && j === 3) {
-        icon += `<img src="${icons[3].imageUrl}" alt="icon ${icons[3].name}" class="icon">`;
-      }
-    });
-
-    cardIcon[i].innerHTML = icon;
-  });
-
-  //array untuk card nya 
-  let cardEdit = document.querySelectorAll(".cardEdit");
-  let cardDelete = document.querySelectorAll(".cardDelete");
-
-  myProject.map((e, i) => {
-    cardEdit[i].addEventListener("click", () => {
-      console.log("edit");
-    });
-
-    cardDelete[i].addEventListener("click", () => {
-      let result = confirm("Yakin ingin menghapus?");
-
-      if (result) {
-        myProject.splice(i, 1);
-        renderElement();
-      }
-    });
-  });
-}
-
-let cardsElement = document.querySelector(".cards");
-
-let myProject = getLocalStorage("projects") || [];
-let editIndex = null;
-let backLayerEdit = document.querySelector(".backLayerEdit");
-let saveEdit = document.getElementById("saveEdit");
-let closeEdit = document.querySelector(".closeEdit");
-renderElement();
-
-addButton.addEventListener("click", async () => {
-  myProject.push({
-    name: name.value,
-    startDate: startDate.value,
-    endDate: endDate.value,
-    description: description.value,
-    tech1: tech1.checked,
-    tech2: tech2.checked,
-    tech3: tech3.checked,
-    tech4: tech4.checked,
-    image: image.files.length > 0 ? await objectUrlToBase64(image.files[0]) : null,
-  });
- setLocalStorage("projects", myProject);
-
-  let card = "";
-
-  myProject.map((e, i) => {
-    card += `<div class="card">
-                      <div class="cardImage" style="background-image: url(${
-                        e.image
-                      });"></div>
-                      <div class="cardTitle">${e.name}</div>
-                      <p class="cardDuration">Durasi: ${countDuration(
-                        e.startDate,
-                        e.endDate
-                      )}</p>
-                      <p class="cardDesc">${e.description}</p>
-                      <div class="cardIcon">
-                      </div>
-                      <div class="cardButton">
-                          <button class="cardEdit">edit</button>
-                          <button class="cardDelete">delete</button>
-                      </div>
-                  </div>`;
-  });
-
-  cardsElement.innerHTML = card;
-
-  // icons data
-  let icons = [
-    {
-      name: "Node JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=54087&format=png&color=000000",
-    },
-    {
-      name: "React JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=Ax6abTiOhdzW&format=png&color=000000",
-    },
-    {
-      name: "Next JS",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=MWiBjkuHeMVq&format=png&color=000000",
-    },
-    {
-      name: "Typescript",
-      imageUrl:
-        "https://img.icons8.com/?size=100&id=uJM6fQYqDaZK&format=png&color=000000",
-    },
-  ];
-
-  let cardIcon = document.getElementsByClassName("cardIcon");
-
-  myProject.map((x, i) => {
-    let icon = "";
-
-    icons.map((y, j) => {
-      if (x.tech1 === true && j === 0) {
-        icon += `<img src="${icons[0].imageUrl}" alt="icon ${icons[0].name}" class="icon">`;
-      }
-
-      if (x.tech2 === true && j === 1) {
-        icon += `<img src="${icons[1].imageUrl}" alt="icon ${icons[1].name}" class="icon">`;
-      }
-
-      if (x.tech3 === true && j === 2) {
-        icon += `<img src="${icons[2].imageUrl}" alt="icon ${icons[2].name}" class="icon">`;
-      }
-
-      if (x.tech4 === true && j === 3) {
-        icon += `<img src="${icons[3].imageUrl}" alt="icon ${icons[3].name}" class="icon">`;
-      }
-    });
-
-    cardIcon[i].innerHTML = icon;
-  });
-
-
-  myProject.map((e, i) => {
-    cardEdit[i].addEventListener("click", () => {
-      backLayerEdit.classList.remove("hide");
-      backLayerEdit.classList.add("show");
-    });
-
-    cardDelete[i].addEventListener("click", () => {
-      let result = confirm("Yakin ingin menghapus?");
-
-      if (result) {
-        myProject.splice(i, 1);
-        renderElement();
-      }
-    });
-  });
-});
-
-
-closeEdit.addEventListener("click", () => {
-  backLayerEdit.classList.remove("show");
-  backLayerEdit.classList.add("hide");
-});
