@@ -1,7 +1,3 @@
-// ======================
-// form.js — versi bersih server-side
-// ======================
-
 // Ambil elemen input
 const name = document.getElementById("name");
 const startDate = document.getElementById("startDate");
@@ -14,7 +10,7 @@ const tech4 = document.getElementById("tech4");
 const image = document.getElementById("image");
 const addButton = document.getElementById("add");
 
-// Optional: validasi sebelum submit ke server
+// validasi sebelum submit ke server
 addButton.addEventListener("click", (e) => {
   if (!name.value.trim()) {
     e.preventDefault();
