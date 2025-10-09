@@ -10,6 +10,9 @@
 
 <body>
    
+ <a href="/logout" class="logout-btn position-fixed top-0 end-0 m-3 px-4 py-2 fw-bold">Logout</a>
+
+
     <div class="container">
         <form action="/add-project" method="POST" enctype="multipart/form-data">
             <div class="addProject">
@@ -87,7 +90,6 @@
   <p>Belum ada project ditambahkan.</p>
   {{/if}}
 </div>
-
         <div class="backLayerEdit hide">
             <div class="formEdit">
                 <div class="closeEdit"></div>
@@ -162,6 +164,7 @@
             </div>
         </div>
     </div>
+
 
     <script src="/asset/js/form.js"></script>
 

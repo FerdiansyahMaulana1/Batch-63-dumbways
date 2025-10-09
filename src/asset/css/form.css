@@ -73,9 +73,7 @@ input[type="checkbox"] {
 
 textarea {
     resize: vertical;
-    /* hanya bisa diubah tinggi (atas-bawah) */
     overflow-x: hidden;
-    /* sembunyikan scroll horizontal jika ada */
     height: 150px;
 }
 
@@ -214,4 +212,21 @@ button#edit {
 
 .myProject {
     background-color: white;
+}
+.logout-btn {
+ text-align: center;
+  background-color: black;       /* warna background */
+  color: white;                /* warna teks */
+  text-decoration: none;       /* hilangkan garis bawah */
+  
+  font-size: 1.1rem;
+  border-radius: 8px;    
+  border: 2px solid black;      /* sedikit membulat, bukan oval */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* efek bayangan halus */
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #b91c1c;   /* sedikit lebih gelap saat hover */
+  transform: translateY(-2px); /* animasi naik sedikit */
 }
