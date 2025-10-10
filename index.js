@@ -24,11 +24,21 @@ app.use(
 );
 
 // Middleware
-app.use(express.urlencoded({ extended: true }));1
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("image"));
 app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware Auth
+function auth(req, res, next) {
+  console.log("Session user di auth:", req.session.user);
+  if (req.session && req.session.user) {
+    next();
+  } else {
+    res.redirect('/login');
+  }
+}
 
 
 // static folder untuk hasil upload
@@ -88,15 +98,16 @@ app.set("view engine", "hbs");
 app.set("views", "src/views");
 
 // Routing
-app.get("/form", async (req, res) => {
+app.get("/form", auth, async (req, res) => {
   try {
     const result = await pool.query("SELECT * FROM project ORDER BY id DESC");
-    res.render("form", { projects: result.rows });
+    res.render("form", { projects: result.rows, user: req.session.user });
   } catch (err) {
     console.error("Error executing query", err);
     res.status(500).send("Database error");
   }
 });
+
 
 app.get("/", (req, res) => {
   res.render("index");
